@@ -20,7 +20,7 @@ const Dashboard = ({LoginStatus}) => {
               <div className='ProfilePhoto Prof-Col'>ProfilePhoto</div>
               <div className='ProfileDetais Prof-Col'>
                 {
-                profileLabels.map((label, index)=> <p>{label} : {profileValues[index]}</p>)
+                profileLabels.map((label, index)=> <p>{label} &emsp;:&emsp; {profileValues[index]}</p>)
                 }
               </div>
               <div className='ProfileQR Prof-Col'>ProfileQR</div>

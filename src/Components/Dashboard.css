@@ -1,0 +1,20 @@
+.DashboardPage{
+    min-height: 430px;
+}
+.DashboardMain{
+    background-color: #dbdedf9a;
+    margin: 10px 15px;
+    padding: 12px 24px;
+    border-radius: 6px;
+}
+.DashboardContent{
+    margin: 10px 15px;
+}
+.HealthDataStatistics, .ConsentsRequests{
+    background-color: #dbdedf4e;
+    margin: 12px 0;
+    padding: 16px 12px;
+}
+.btnPage2Back{
+    margin-bottom: 25px;
+}

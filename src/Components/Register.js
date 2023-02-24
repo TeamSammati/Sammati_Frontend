@@ -45,10 +45,11 @@ const Register = () => {
                 />
               </div>
               <div className='RegisterCol'>
-                <label className='InputLabel'>Email Id. (Optional)</label>
+                <label className='InputLabel'>Email Id. (*)&emsp;&emsp;&emsp;&nbsp;</label>
                 <input
                   type='email'
                   className='InputText'
+                  required
                 />
               </div>
               <div className='RegisterCol'>
@@ -93,11 +94,10 @@ const Register = () => {
             </div>
             <div className='RegisterRow'>
               <div className='RegisterCol'>
-                <label className='InputLabel'>PassPhoto (*)</label>
+                <label className='InputLabel'>PassPhoto</label>
                 <input
                   type='file'
                   className='InputText'
-                  required
                 />
               </div>
               <div className='RegisterCol'>

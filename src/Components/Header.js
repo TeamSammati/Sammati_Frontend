@@ -1,13 +1,17 @@
 import React from 'react'
-import './Header.css'
+import './Stylesheets/Header.css'
 import logo from '../Images/logo.png'
-const Header = () => {
+const Header = ({user, setUser}) => {
+  const logout = () => {
+    window.localStorage.removeItem('sessionUser')
+    setUser(null)
+  }
   return (
     <div className='headerPage'>
-        <button  className='headerTextRight'>
+      <button className='headerTextRight' onClick={logout}>
         Logout
-        </button>
-        <div className='headerTitle'><span><img src={logo} alt="logo" width={35} height={35} /></span> Sammati - Consent Management System</div>
+      </button>
+      <div className='headerTitle'><span><img src={logo} alt="logo" width={35} height={35} /></span> Sammati - Consent Management System</div>
     </div>
   )
 }

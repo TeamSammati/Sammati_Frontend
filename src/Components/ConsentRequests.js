@@ -1,25 +1,14 @@
 import React from 'react'
-import './ConsentRequests.css'
-import axios from 'axios'
+import './Stylesheets/ConsentRequests.css'
 import ConsentRequest from './ConsentRequest'
-const ConsentRequests = () => {
-  const consentRequests = [
+const ConsentRequests = ({consentRequests}) => {
+  const consentRequests1 = [
     {cr_id: 1, hospital_id : 1, doctor_id: 1, cr_status: "Pending"},
     {cr_id: 1, hospital_id : 1, doctor_id: 1, cr_status: "Pending"},
     {cr_id: 1, hospital_id : 1, doctor_id: 1, cr_status: "Pending"},
     {cr_id: 1, hospital_id : 1, doctor_id: 1, cr_status: "Pending"},
   ]
-  const getCRURL = `http://172.16.144.47:6969/Request_List/2`
-  const getCRURLReq = async () => {
-    await axios.get(getCRURL)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-  getCRURLReq()
+  
   return (
     <div className='ConsentRequestsPage'>
       <div className='ConsentRequestTitle'>
@@ -38,7 +27,7 @@ const ConsentRequests = () => {
             </tr>
           </thead>
           <tbody>
-            {consentRequests.map((consentRequest, index) => (
+            {consentRequests1.map((consentRequest, index) => (
               <ConsentRequest
               {...consentRequest}
               index={index}

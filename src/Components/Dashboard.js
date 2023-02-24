@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import ConsentRequests from './ConsentRequests'
 import './Stylesheets/Dashboard.css'
-const Dashboard = ({LoginStatus}) => {
+const Dashboard = ({user, consentRequests}) => {
     const [page, setPage] = useState(1)
     const profileLabels = ['Unique Patient Id.','Date of Birth', 'Gender', 'Mobile Number', 'Address']
     const profileValues = ['XXX123', '01-Jan-XX00', 'Male', 'XXX95', '4-99/24, Govindaraopet, Mulugu, Telangana - 506344']
-    const Logout = () => {
-        LoginStatus()
-    }
     
   return (
     <div>
@@ -35,13 +32,12 @@ const Dashboard = ({LoginStatus}) => {
           <button onClick={()=>{setPage(2)}} className='btnPage2Go'>Goto Requests &gt;&gt;</button>
           </div>
           </div>
-          <button onClick={Logout}>Logout</button>
         </div>
       }
       {
         (page === 2) &&
         <div className='RequestsPage'>
-          <ConsentRequests/>
+          <ConsentRequests consentRequests={consentRequests}/>
           <button onClick={()=>{setPage(1)}} className='btnPage2Back'>Goto Dashboard &gt;&gt;</button>
         </div>
       }

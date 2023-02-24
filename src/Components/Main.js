@@ -1,22 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dashboard from './Dashboard'
 import LoginPage from './LoginPage'
-
+import loginService from '../Services/LoginService'
+import consentRequestService from '../Services/ConsentRequestService'
+import Header from './Header'
 const Main = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(null)
-    const setLoginStatus = () => {
-        setIsLoggedIn(1)
+    const [user, setUser] = useState(null)
+    const [consentRequests, setConsentRequests] = useState([])
+    const loginHandler = async (loginCredentials) => {
+        try {
+            const userObject = await loginService.login(loginCredentials)
+            setUser(userObject)
+            window.localStorage.setItem('sessionUser', JSON.stringify(userObject))
+        }
+        catch (exception) {
+            alert("Log in failed, check username and password entered")
+        }
     }
-    const resetLoginStatus = () => {
-        setIsLoggedIn(null)
-    }
+    useEffect(() => {
+        async function fetchRequests() {
+          if (user) {
+            const requests = await consentRequestService.getPendingRequests(user)
+            setConsentRequests(requests)
+          }
+        }
+        fetchRequests()
+    }, [user])
+
+    useEffect(() => {
+        const sessionUser = window.localStorage.getItem('sessionUser')
+        if (sessionUser)
+            setUser(JSON.parse(sessionUser))
+        else
+            setUser(null)
+    }, [])
+    
     return (
         <div>
             {
-                (isLoggedIn === null) && <LoginPage LoginStatus={setLoginStatus}/>
+                <Header user={user} setUser={setUser}/>
             }
             {
-                (isLoggedIn !== null) && <Dashboard LoginStatus={resetLoginStatus}/>
+                (user === null) && <LoginPage loginHandler={loginHandler}/>
+            }
+            {
+                (user !== null) && <Dashboard user={user} consentRequests={consentRequests} />
             }
         </div>
 

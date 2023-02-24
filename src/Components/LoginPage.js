@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './LoginPage.css'
+import './Stylesheets/LoginPage.css'
 import Register from './Register'
 
 const LoginPage = ({ LoginStatus }) => {

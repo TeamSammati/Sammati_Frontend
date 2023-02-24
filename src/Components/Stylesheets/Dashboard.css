@@ -16,11 +16,13 @@
     padding: 16px 12px;
 }
 .btnPage2Go, .btnPage2Back{
-    margin: 5px;
-    padding:5px;
-    background-color: #24262b;
-    color: #fff;
-    border-radius: 4px;
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+    margin: 10px;
 }
 .ProfileName{
     float: none;

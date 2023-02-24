@@ -1,17 +1,17 @@
 import React from 'react'
-
+import './Stylesheets/ConsentRequest.css'
 const ConsentRequest = ({cr_id, index, hospital_id, doctor_id}) => {
     return (
         <tr>
             <td>{index + 1}</td>
-            <th scope="row">{cr_id} </th>
+            <td>{cr_id} </td>
             <td>{hospital_id}</td>
             <td>{doctor_id}</td>
             <td>
-                <button type="button" className="btn btn-secondary">Accept</button>
+                <button type="button" className="btnAccept">Accept &gt;&gt;</button>
             </td>
             <td>
-                <button type="button" className="btn btn-secondary">Deny</button>
+                <button type="button" className="btnReject">Deny &gt;&gt;</button>
             </td>
         </tr>
     )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ConsentRequests from './ConsentRequests'
-import './Dashboard.css'
+import './Stylesheets/Dashboard.css'
 const Dashboard = ({LoginStatus}) => {
     const [page, setPage] = useState(1)
     const profileLabels = ['Unique Patient Id.','Date of Birth', 'Gender', 'Mobile Number', 'Address']

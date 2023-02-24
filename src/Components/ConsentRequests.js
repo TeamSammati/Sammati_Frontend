@@ -1,5 +1,5 @@
 import React from 'react'
-import './ConsentRequests.css'
+import './Stylesheets/ConsentRequests.css'
 import axios from 'axios'
 import ConsentRequest from './ConsentRequest'
 const ConsentRequests = () => {

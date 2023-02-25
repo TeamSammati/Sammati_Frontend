@@ -10,8 +10,14 @@ const Main = () => {
     const loginHandler = async (loginCredentials) => {
         try {
             const userObject = await loginService.login(loginCredentials)
-            setUser(userObject)
-            window.localStorage.setItem('sessionUser', JSON.stringify(userObject))
+            if(userObject){
+                setUser(userObject)
+                window.localStorage.setItem('sessionUser', JSON.stringify(userObject))
+            }
+            else{
+                alert("Log in failed, check username and password entered")
+            }
+            
         }
         catch (exception) {
             alert("Log in failed, check username and password entered")

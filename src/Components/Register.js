@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Stylesheets/Register.css'
 import registerService from '../Services/RegisterService'
 const Register = () => {
@@ -7,50 +7,131 @@ const Register = () => {
   const [dob, setDob] = useState('')
   const [mobile, setMobile] = useState('')
   const [email, setEmail] = useState('')
-  const [gender, setGender] = useState('')
+  const [gender, setGender] = useState(0)
   const [address1, setAddress1] = useState('')
   const [pin, setPIN] = useState('')
-  const [state, setState] = useState('')
+  const [state, setState] = useState(0)
   const [passPhoto, setPassPhoto] = useState(null)
   const [uid, setUid] = useState('')
-  const [uidType, setUidType] = useState('')
+  const [uidType, setUidType] = useState(0)
   const [uName, setUName] = useState('')
   const [pwd, setPwd] = useState('')
   const [rpwd, setRPwd] = useState('')
 
+  const genderList = [
+    {
+      id: 1,
+      value: 'Male'
+    }, {
+      id: 2,
+      value: 'Female'
+    }, {
+      id: 3,
+      value: 'Others'
+    }
+  ];
+  const stateList = [
+    {
+      id: 1,
+      value: 'Andhra Pradesh'
+    }, {
+      id: 2,
+      value: 'Gujarat'
+    }, {
+      id: 3,
+      value: 'Maharastra'
+    },
+    {
+      id: 4,
+      value: 'Telangana'
+    }, {
+      id: 5,
+      value: 'Karnataka'
+    }, {
+      id: 6,
+      value: 'Others'
+    }
+  ];
+  const uidTypeList = [
+    {
+      id: 1,
+      value: 'Aadhar'
+    }, {
+      id: 2,
+      value: 'Voter Id.'
+    }, {
+      id: 3,
+      value: 'PAN'
+    }
+  ];
+  function Options({ options }) {
+    return (
+      options.map(option =>
+        <option key={option.id} value={option.value}>
+          {option.value}
+        </option>)
+    );
+  }
+
+  useEffect(() => {
+    console.log("Register: ", fname, ' ', gender, ' ', uid, ' ', uidType)
+  }, [fname, gender, uid, uidType])
 
   const registerHandler = async (registerContent) => {
     try {
       const response = await registerService.register(registerContent)
       if (response) {
-        alert("Registration Successful! You can Login Now...")
+        alert("Registration Successful! You can Login Now...", response)
       }
       window.location.reload(true)
     }
     catch (exception) {
-      alert("Log in failed, check username and password entered")
+      alert("Registration Failed...")
       window.location.reload(true)
     }
   }
   const handleRegister = (event) => {
     event.preventDefault()
     const registerContent = {
-      fname, lname, dob, mobile, email, gender, address1, pin, state, passPhoto, uid, uidType, uName, pwd, rpwd
+      firstName: fname, lastName: lname, phoneNumber: mobile, userName: uName, gender: gender, email: email, UID_Number: uid, UID_type: uidType, state: state, address: address1, pinCode: pin, password: pwd, dob: dob
     }
+    if (gender === 0 || state === 0 || uidType === 0) {
+      alert("select All Fields and Try Again!");
+      return
+    }
+    if(pwd !== rpwd){
+      alert("Password do not match, Try Again!");
+      setPwd('')
+      setRPwd('')
+      return
+    }
+    if(pwd.length < 8 || pwd.length > 32){
+      alert("Password Length should be in range [8,32], Try Again!");
+      setPwd('')
+      setRPwd('')
+      return
+    }
+    if(uName.length > 10){
+      alert("User Name length should be at max 10 characters..., Try Again!")
+      setUName('')
+      return
+    }
+    //console.log("Registration: ", registerContent)
     registerHandler(registerContent)
+
 
     setFname('')
     setLname('')
     setDob('')
     setMobile('')
     setEmail('')
-    setGender('')
+    setGender(0)
     setAddress1('')
     setPIN('')
-    setState('')
+    setState(0)
     setPassPhoto(null)
     setUid('')
-    setUidType('')
+    setUidType(0)
     setUName('')
     setPwd('')
     setRPwd('')
@@ -119,15 +200,13 @@ const Register = () => {
               <div className='RegisterCol'>
                 <label className='InputLabel'>Gender (*)&emsp;&emsp;&nbsp;</label>
                 <select
-                  className='InputText'
+                  name="gender"
+                  className="InputText"
                   value={gender}
-                  onChange={event => setGender(event.target.value)}
-                  required
-                >
-                  <option value='N' disabled>Select Gender</option>
-                  <option value='M'>Male</option>
-                  <option value='F'>Female</option>
-                  <option value='O'>Others</option>
+                  onChange={e => setGender(e.target.value)}
+                  required>
+                  <option value="0" disabled>select your gender</option>
+                  <Options options={genderList} />
                 </select>
               </div>
             </div>
@@ -155,18 +234,13 @@ const Register = () => {
               <div className='RegisterCol'>
                 <label className='InputLabel'>State (*)&emsp;&emsp;&emsp;</label>
                 <select
-                  className='InputText'
+                  name="state"
+                  className="InputText"
                   value={state}
-                  onChange={event => setState(event.target.value)}
-                  required
-                >
-                  <option value='N' disabled>Select State</option>
-                  <option value='KA'>Karnataka</option>
-                  <option value='AP'>Andhra Pradesh</option>
-                  <option value='MH'>Maharastra</option>
-                  <option value='GJ'>Gujarat</option>
-                  <option value='TS'>Telangana</option>
-                  <option value='PN'>Panjab</option>
+                  onChange={e => setState(e.target.value)}
+                  required>
+                  <option value="0" selected disabled hidden>select your state</option>
+                  <Options options={stateList} />
                 </select>
               </div>
             </div>
@@ -193,15 +267,13 @@ const Register = () => {
               <div className='RegisterCol'>
                 <label className='InputLabel'>UID. Type (*)&emsp;</label>
                 <select
-                  className='InputText'
+                  name="uidType"
+                  className="InputText"
                   value={uidType}
-                  onChange={event => setUidType(event.target.value)}
-                  required
-                >
-                  <option value='A' disabled>Select Type</option>
-                  <option value='IT1'>Aadhar</option>
-                  <option value='IT2'>Voter Id.</option>
-                  <option value='IT3'>PAN</option>
+                  onChange={e => setUidType(e.target.value)}
+                  required>
+                  <option value="0" selected disabled hidden>select UID. Type</option>
+                  <Options options={uidTypeList} />
                 </select>
               </div>
             </div>

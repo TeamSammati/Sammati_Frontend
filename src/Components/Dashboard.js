@@ -4,15 +4,14 @@ import './Stylesheets/Dashboard.css'
 const Dashboard = ({user, consentRequests}) => {
     const [page, setPage] = useState(1)
     const profileLabels = ['Unique Patient Id.','Date of Birth', 'Gender', 'Mobile Number', 'Address']
-    const profileValues = ['XXX123', '01-Jan-XX00', 'Male', 'XXX95', '4-99/24, Govindaraopet, Mulugu, Telangana - 506344']
-    
+    const profileValues = [user.patientId,user.dob,user.gender,user.phoneNumber,user.address+' , '+user.state+' , '+user.pinCode]
   return (
     <div>
       {
         (page === 1) && 
         <div className='DashboardPage'>
           <div className='DashboardMain'>
-            <div className='ProfileTitle'>Welcome Back <span className='ProfileName'>Boppana Venkatesh</span></div>
+            <div className='ProfileTitle'>Welcome Back <span className='ProfileName'>{user.firstName} {user.lastName}</span></div>
             <div className='ProfileContent'>
               <div className='ProfilePhoto Prof-Col'>ProfilePhoto</div>
               <div className='ProfileDetais Prof-Col'>
@@ -37,7 +36,7 @@ const Dashboard = ({user, consentRequests}) => {
       {
         (page === 2) &&
         <div className='RequestsPage'>
-          <ConsentRequests consentRequests={consentRequests}/>
+          <ConsentRequests consentRequests={consentRequests} page={page} setPage={setPage}/>
           <button onClick={()=>{setPage(1)}} className='btnPage2Back'>Goto Dashboard &gt;&gt;</button>
         </div>
       }

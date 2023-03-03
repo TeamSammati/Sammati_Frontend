@@ -7,12 +7,15 @@ import Header from './Header'
 const Main = () => {
     const [user, setUser] = useState(null)
     const [consentRequests, setConsentRequests] = useState([])
+    const [currPage, setCurrPage] = useState(0)
     const loginHandler = async (loginCredentials) => {
         try {
             const userObject = await loginService.login(loginCredentials)
             if(userObject){
                 setUser(userObject)
                 window.localStorage.setItem('sessionUser', JSON.stringify(userObject))
+                setCurrPage(1)
+                window.localStorage.setItem('currPage', JSON.stringify(1))
             }
             else{
                 alert("Log in failed, check username and password entered")
@@ -39,6 +42,8 @@ const Main = () => {
             setUser(JSON.parse(sessionUser))
         else
             setUser(null)
+        const lastPage = window.localStorage.getItem('currPage')
+        setCurrPage(JSON.parse(lastPage))
     }, [])
     
     return (
@@ -50,7 +55,7 @@ const Main = () => {
                 (user === null) && <LoginPage loginHandler={loginHandler}/>
             }
             {
-                (user !== null) && <Dashboard user={user} consentRequests={consentRequests} />
+                (user !== null) && <Dashboard user={user} consentRequests={consentRequests} currPage={currPage} setCurrPage={setCurrPage}/>
             }
         </div>
 

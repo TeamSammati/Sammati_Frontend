@@ -2,14 +2,13 @@ import React from 'react'
 import './Stylesheets/ConsentRequest.css'
 import consentResponseService from '../Services/ConsentResponseService'
 
-const ConsentRequest = ({ consentRequestId, index, hospitalId, doctorId, page, setPage}) => {
+const ConsentRequest = ({ consentRequestId, index, hospitalId, doctorId}) => {
     const consentResponseHandler = async (cr_response) => {
         try {
             const response = await consentResponseService.consentResponse(cr_response)
             if (response) {
                 alert("Consent Response Given!",response)
                 window.location.reload(true)
-                setPage(2)
 
             }
         }

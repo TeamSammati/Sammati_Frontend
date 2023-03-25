@@ -13,6 +13,9 @@
 .footerPage{
     background-color: #24262b;
     padding: 10px 0 10px 0;
+    /* bottom: 0;
+    width: 100%;
+    position: absolute; */
 }
 .copyright p{
     color: #fff;

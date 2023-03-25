@@ -1,7 +1,7 @@
 import React from 'react'
 import './Stylesheets/ConsentRequests.css'
 import ConsentRequest from './ConsentRequest'
-const ConsentRequests = ({ consentRequests, page, setPage }) => {
+const ConsentRequests = ({ consentRequests}) => {
   return (
     <div className='ConsentRequestsPage'>
       <div className='ConsentRequestTitle'>
@@ -34,8 +34,6 @@ const ConsentRequests = ({ consentRequests, page, setPage }) => {
                     {...consentRequest}
                     index={index}
                     key={index}
-                    page = {page}
-                    setPage = {setPage}
                   />
                 ))
                 }

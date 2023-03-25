@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Stylesheets/Register.css'
+import OtpValidationButtons from './OtpValidationButtons'
 import registerService from '../Services/RegisterService'
+import otpValidationService from '../Services/OTPValidationService'
 const Register = () => {
   const [fname, setFname] = useState('')
   const [lname, setLname] = useState('')
@@ -17,7 +19,53 @@ const Register = () => {
   const [uName, setUName] = useState('')
   const [pwd, setPwd] = useState('')
   const [rpwd, setRPwd] = useState('')
-
+  const [clearCredentials, setClearCredentials] = useState(false);
+  const [isOtpValidated, setIsOtpValidated] = useState(false);
+  const [wantToValidate, setWantToValidate] = useState(false);
+  const handleSendOtp = () => {
+    const genParam = {
+      phoneNumber : mobile
+    }
+    setWantToValidate(true)
+    sendOtpHandler(genParam)
+  }
+  const sendOtpHandler = async (genParam) => {
+    try {
+      const response = await otpValidationService.genOTP(genParam)
+      if (response) {
+        alert("OTP Sent to your Mobile Number");
+      }
+      else{
+        alert("Invalid Details! Try Again.");
+      }
+    }
+    catch (exception) {
+      alert("Cannot Send Details Please try later...")
+    }
+  }
+  const handleOtpSubmit = (enteredOtp) => {
+    const validationParam = {
+      phoneNumber : mobile,
+      message : enteredOtp
+    }
+    otpHandler(validationParam)
+    //console.log('Entered OTP is : ', validationParam);
+  };
+  const otpHandler = async (validationParam) => {
+    try {
+      const response = await otpValidationService.validateOTP(validationParam)
+      if (response) {
+        setIsOtpValidated(true);
+      }
+      else{
+        alert("Invalid OTP! Try Again.");
+        setClearCredentials(true);
+      }
+    }
+    catch (exception) {
+      alert("Cannot Send OTP Please try later...")
+    }
+  }
   const genderList = [
     {
       id: 1,
@@ -99,19 +147,19 @@ const Register = () => {
       alert("select All Fields and Try Again!");
       return
     }
-    if(pwd !== rpwd){
+    if (pwd !== rpwd) {
       alert("Password do not match, Try Again!");
       setPwd('')
       setRPwd('')
       return
     }
-    if(pwd.length < 8 || pwd.length > 32){
+    if (pwd.length < 8 || pwd.length > 32) {
       alert("Password Length should be in range [8,32], Try Again!");
       setPwd('')
       setRPwd('')
       return
     }
-    if(uName.length > 10){
+    if (uName.length > 10) {
       alert("User Name length should be at max 10 characters..., Try Again!")
       setUName('')
       return
@@ -184,8 +232,27 @@ const Register = () => {
                   className='InputText'
                   value={mobile}
                   onChange={event => setMobile(event.target.value)}
+                  disabled={isOtpValidated}
                   required
                 />
+                {isOtpValidated ? (
+                  <h5 className='success'>OTP has been validated!</h5>
+                ) : (
+                  <div>
+                    {
+                      wantToValidate ? (
+                        <div>
+                          <h5 className='info'>Please enter the OTP sent to your Mobile Number:</h5>
+                          <OtpValidationButtons onSubmit={handleOtpSubmit} clearCredentials={clearCredentials} setClearCredentials={setClearCredentials}/>
+                        </div>
+                      ) : (
+                        <div>
+                          <input type="button" className='InputButton' value="Send OTP" onClick={handleSendOtp} disabled={mobile.length < 10} />
+                        </div>
+                      )
+                    }
+                  </div>
+                )}
               </div>
               <div className='RegisterCol'>
                 <label className='InputLabel'>Email Id. (*)&emsp;&emsp;&emsp;&nbsp;</label>
@@ -313,7 +380,7 @@ const Register = () => {
               </div>
             </div>
           </div>
-          <button type='submit' className='InputButton'>Submit &gt;&gt;</button>
+          <button type='submit' className='InputButton' disabled={!isOtpValidated}>Submit &gt;&gt;</button>
         </form>
 
       </div>

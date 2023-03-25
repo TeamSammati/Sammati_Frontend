@@ -22,14 +22,34 @@ const Register = () => {
   const [clearCredentials, setClearCredentials] = useState(false);
   const [isOtpValidated, setIsOtpValidated] = useState(false);
   const [wantToValidate, setWantToValidate] = useState(false);
-
+  const handleSendOtp = () => {
+    const genParam = {
+      phoneNumber : mobile
+    }
+    setWantToValidate(true)
+    sendOtpHandler(genParam)
+  }
+  const sendOtpHandler = async (genParam) => {
+    try {
+      const response = await otpValidationService.genOTP(genParam)
+      if (response) {
+        alert("OTP Sent to your Mobile Number");
+      }
+      else{
+        alert("Invalid Details! Try Again.");
+      }
+    }
+    catch (exception) {
+      alert("Cannot Send Details Please try later...")
+    }
+  }
   const handleOtpSubmit = (enteredOtp) => {
     const validationParam = {
       phoneNumber : mobile,
       message : enteredOtp
     }
     otpHandler(validationParam)
-    console.log('Entered OTP is : ', validationParam);
+    //console.log('Entered OTP is : ', validationParam);
   };
   const otpHandler = async (validationParam) => {
     try {
@@ -212,6 +232,7 @@ const Register = () => {
                   className='InputText'
                   value={mobile}
                   onChange={event => setMobile(event.target.value)}
+                  disabled={isOtpValidated}
                   required
                 />
                 {isOtpValidated ? (
@@ -226,7 +247,7 @@ const Register = () => {
                         </div>
                       ) : (
                         <div>
-                          <input type="button" className='InputButton' value="Send OTP" onClick={() => { setWantToValidate(true) }} disabled={mobile.length < 10} />
+                          <input type="button" className='InputButton' value="Send OTP" onClick={handleSendOtp} disabled={mobile.length < 10} />
                         </div>
                       )
                     }

@@ -1,6 +1,7 @@
 import axios from "axios";
+import configURL from "../Configurations/configURL";
 
-const registerURL = `http://172.16.144.47:6979/save`
+const {registerURL} = configURL;
 
 const register = async (registerContent) => {
     const response = await axios.post(registerURL, registerContent)

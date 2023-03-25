@@ -56,6 +56,10 @@
     border-radius: 5px;
     font-weight: bold;
 }
+.InputButton:disabled{
+    background-color: #9f9d9d;
+    color: #24262b;
+}
 .InputButton:hover{
     background-color: #9f9d9d;
 }
@@ -67,4 +71,10 @@
     text-decoration: underline;
     cursor: pointer;
     margin: 10px;
+}
+h5, .success{
+    color: green;
+}
+h5, .info{
+    color: #e91e63;
 }

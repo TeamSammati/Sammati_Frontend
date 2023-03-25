@@ -1,6 +1,7 @@
 import axios from "axios";
+import configURL from "../Configurations/configURL";
 
-const loginURL = `http://172.16.144.47:6979/login`
+const {loginURL} = configURL;
 
 const login = async (loginCredentials) => {
     const response = await axios.post(loginURL, loginCredentials)

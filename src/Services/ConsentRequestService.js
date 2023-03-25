@@ -1,6 +1,7 @@
 import axios from 'axios'
+import configURL from "../Configurations/configURL";
 
-const consentRequestURL = `http://172.16.144.47:6979/Request_List`
+const {consentRequestURL} = configURL;
 
 const getPendingRequests = async (patient) => {
     const response = await axios.get(`${consentRequestURL}?patientId=${patient.patientId}`)
